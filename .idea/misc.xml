@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/v1-service/v1-product-service/pom.xml" />
+        <option value="$PROJECT_DIR$/demo/pom.xml" />
+        <option value="$PROJECT_DIR$/v1-web/v1-center-web/pom.xml" />
+        <option value="$PROJECT_DIR$/v1-web/v1-index-web/pom.xml" />
+        <option value="$PROJECT_DIR$/v1-service/v1-search-service/pom.xml" />
+        <option value="$PROJECT_DIR$/v1-web/v1-search-web/pom.xml" />
+        <option value="$PROJECT_DIR$/v1-web/v1-item-web/pom.xml" />
+        <option value="$PROJECT_DIR$/v1-temp/temp-springboot-rabbitmq/pom.xml" />
+        <option value="$PROJECT_DIR$/v1-temp/temp-springboot-redis/pom.xml" />
+        <option value="$PROJECT_DIR$/v1-service/v1-user-service/pom.xml" />
+        <option value="$PROJECT_DIR$/v1-web/v1-register-web/pom.xml" />
+        <option value="$PROJECT_DIR$/v1-temp/temp-email/pom.xml" />
+        <option value="$PROJECT_DIR$/v1-service/v1-common-service/pom.xml" />
+        <option value="$PROJECT_DIR$/v1-temp/temp-timer/pom.xml" />
+        <option value="$PROJECT_DIR$/v1-web/v1-sso-web/pom.xml" />
+        <option value="$PROJECT_DIR$/v1-service/v1-cart-service/pom.xml" />
+        <option value="$PROJECT_DIR$/v1-web/v1-cart-web/pom.xml" />
+        <option value="$PROJECT_DIR$/v1-web/v1-order-web/pom.xml" />
+        <option value="$PROJECT_DIR$/v1-web/miaosha/pom.xml" />
+      </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/v1-basic/pom.xml" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8 (3)" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>

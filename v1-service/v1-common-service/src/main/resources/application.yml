@@ -1,0 +1,27 @@
+dubbo:
+  application:
+    name: common-service
+  registry:
+    protocol: zookeeper
+    address: 10.36.147.81:2181
+  protocol:
+    port: 28813
+
+mail:
+  fromAddr: r1874012876@163.com
+
+spring:
+  mail:
+    host: smtp.163.com
+    username: r1874012876@163.com
+    password: r1874012876
+    default-encoding: utf-8
+  rabbitmq:
+    virtual-host: /rhb
+    host: 10.36.147.81
+    port: 5672
+    username: rhb
+    password: rhb
+
+server:
+  port: 8083

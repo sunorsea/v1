@@ -1,0 +1,28 @@
+dubbo:
+  application:
+    name: register-web
+  registry:
+    protocol: zookeeper
+    address: 10.36.147.81:2181
+
+server:
+  port: 9094
+
+spring:
+  thymeleaf:
+    cache: false
+  rabbitmq:
+    virtual-host: /rhb
+    host: 10.36.147.81
+    port: 5672
+    username: rhb
+    password: rhb
+  redis:
+    host: 10.36.147.81
+    port: 6379
+    password: ronghaibo
+    jedis:
+      pool:
+        max-active: 100
+        max-wait: 20000
+        max-idle: 50

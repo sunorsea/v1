@@ -1,0 +1,13 @@
+server:
+  port: 9095
+
+dubbo:
+  application:
+    name: sso-web
+  registry:
+    protocol: zookeeper
+    address: 10.36.147.81:2181
+
+spring:
+  thymeleaf:
+    cache: false

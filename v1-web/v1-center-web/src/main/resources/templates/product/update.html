@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>更新商品</title>
+    <base href="/"/>
+</head>
+<body>
+    <form action="/product/update" method="post">
+        <table>
+            <tr>
+                <td>商品名称</td>
+                <td>商品类别</td>
+                <td>商品折后价</td>
+                <td>商品价格</td>
+                <td>商品图片</td>
+                <td>商品卖点</td>
+                <td>商品详细信息</td>
+            </tr>
+            <tr>
+                <td><input type="text" th:text="${vo.product.name}">商品名称</td>
+                <td >商品类别</td>
+                <td>商品折后价</td>
+                <td>商品价格</td>
+                <td>商品图片</td>
+                <td>商品卖点</td>
+                <td>商品详细信息</td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>

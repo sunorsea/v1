@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="demo" />
+        <module name="miaosha" />
+        <module name="temp-email" />
+        <module name="temp-httpclient" />
+        <module name="temp-jedis" />
+        <module name="temp-jwt" />
+        <module name="temp-rabbitmq" />
+        <module name="temp-springboot-rabbitmq" />
+        <module name="temp-springboot-redis" />
+        <module name="temp-timer" />
+        <module name="temp-zookeeper" />
+        <module name="v1-cart-api" />
+        <module name="v1-cart-service" />
+        <module name="v1-cart-web" />
+        <module name="v1-center-web" />
+        <module name="v1-common" />
+        <module name="v1-common-api" />
+        <module name="v1-common-service" />
+        <module name="v1-entity" />
+        <module name="v1-index-web" />
+        <module name="v1-item-web" />
+        <module name="v1-mapper" />
+        <module name="v1-order-web" />
+        <module name="v1-product-api" />
+        <module name="v1-product-service" />
+        <module name="v1-register-web" />
+        <module name="v1-search-api" />
+        <module name="v1-search-service" />
+        <module name="v1-search-web" />
+        <module name="v1-service" />
+        <module name="v1-sso-web" />
+        <module name="v1-user-api" />
+        <module name="v1-user-service" />
+        <module name="v1-web" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="8">
+      <module name="v1-basic" target="1.5" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="demo" options="-parameters" />
+      <module name="miaosha" options="-parameters" />
+      <module name="temp-email" options="-parameters" />
+      <module name="temp-springboot-rabbitmq" options="-parameters" />
+      <module name="temp-springboot-redis" options="-parameters" />
+      <module name="temp-timer" options="-parameters" />
+      <module name="v1-cart-service" options="-parameters" />
+      <module name="v1-cart-web" options="-parameters" />
+      <module name="v1-center-web" options="-parameters" />
+      <module name="v1-common-service" options="-parameters" />
+      <module name="v1-index-web" options="-parameters" />
+      <module name="v1-item-web" options="-parameters" />
+      <module name="v1-mapper" options="-parameters" />
+      <module name="v1-order-web" options="-parameters" />
+      <module name="v1-product-service" options="-parameters" />
+      <module name="v1-register-web" options="-parameters" />
+      <module name="v1-search-service" options="-parameters" />
+      <module name="v1-search-web" options="-parameters" />
+      <module name="v1-sso-web" options="-parameters" />
+      <module name="v1-user-service" options="-parameters" />
+    </option>
+  </component>
+</project>

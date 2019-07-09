@@ -1,0 +1,6 @@
+spring:
+  redis:
+    sentinel:
+      nodes: 10.36.147.81:26379
+      master: mymaster
+    password: ronghaibo

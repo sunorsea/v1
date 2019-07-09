@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>商品的列表页面</title>
+    <base href="/">
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
+    <!--引入zTree的css-->
+    <link rel="stylesheet" href="zTree/v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
+    <link rel="stylesheet" href="css/uploadifive.css">
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-8">
+            <button type="button" class="btn btn-primary" id="to-add">添加</button>
+            <button type="button" class="btn btn-danger" id="to-batch-del">批量删除</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-hover">
+                <tr>
+                    <td>
+                        <input type="checkbox" id="checkAll"/>
+                    </td>
+                    <td>商品类别</td>
+                    <td>名称</td>
+                    <td>价格</td>
+                    <td>图片</td>
+                    <td>卖点</td>
+                    <td>操作</td>
+                </tr>
+                <tr th:each="p : ${page.list}">
+                    <td>
+                        <input type="checkbox" class="cxb" th:value="${p.id}" />
+                    </td>
+                    <td th:text="${p.typeName}">电子数码</td>
+                    <td th:text="${p.name}">笔记本</td>
+                    <td th:text="${p.price}">9999</td>
+                    <td>
+                        <img src="#" th:src="${p.images}" style="height: 100px;width: 100px">
+                    </td>
+                    <td th:text="${p.salePoint}">速度快</td>
+                    <td>
+                        <button type="button" class="btn btn-primary btn-update" th:id="${p.id}">修改</button>
+                        <button type="button" class="btn btn-danger btn-delete" th:id="${p.id}">删除</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            当前是第<span th:text="${page.pageNum}"></span> 页,
+            每页展示<span th:text="${page.pageSize}"></span> 条,
+            共<span th:text="${page.pages}"></span> 页
+        </div>
+
+        <div class="col-md-6">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li>
+                        <a href="#" th:href="|product/page/1/${page.pageSize}|">首页</a>
+                    </li>
+                    <li th:if="${page.pageNum<1?1:page.prePage}")>
+                        <a href="#" th:href="|product/page/${page.prePage}/${page.pageSize}|" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;上一页</span>
+                        </a>
+                    </li>
+                    <li class="active" th:each="pageNum : ${page.navigatepageNums}"
+                        th:class="${page.pageNum==pageNum?'active':''}" >
+                        <a href="#" th:href="|product/page/${pageNum}/${page.pageSize}|" th:text="${pageNum}">1</a>
+                    </li>
+                    <li th:if="${page.pageNum>page.pages?page.pages:page.nextPage}">
+                        <a href="#" aria-label="Next" th:href="|product/page/${page.nextPage}/${page.pageSize}|">
+                            <span aria-hidden="true">&raquo;下一页</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" th:href="|product/page/${page.pages}/${page.pageSize}|">尾页</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<!--添加弹出层-->
+<div class="modal fade" tabindex="-1" role="dialog" id="addModel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">添加商品</h4>
+            </div>
+            <div class="modal-body">
+                <!--录入商品信息-->
+                <form class="form-horizontal" id="addForm" action="product/add" method="post">
+                    <div class="form-group">
+                        <label for="name" class="col-sm-2 control-label">商品名称</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="name" placeholder="请输入商品名称" name="product.name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="price" class="col-sm-2 control-label">价格</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="price" name="product.price" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="salePrice" class="col-sm-2 control-label">促销价</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="salePrice" name="product.salePrice">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="uploadImage" class="col-sm-2 control-label">图片</label>
+                        <div class="col-sm-10">
+                            <input type="file"name="file" id="uploadImage"/>
+                            <img src="#" id="showImage" style="width: 100px;height: 100px;display: none;">
+                            <input type="hidden" id="images" name="product.images">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="salePoint" class="col-sm-2 control-label">卖点</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="salePoint" name="product.salePoint">
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label for="typeId" class="col-sm-2 control-label">商品类别</label>
+                        <div class="col-sm-10">
+                            <a data-toggle="modal" href="#myModal" class="btn btn-primary" id="select">选择商品类别</a>
+                            <!--<input class="btn btn-primary radius" type="button" value="选择类别"  aria-labelledby="myModal2">-->
+                            <input type="hidden" id="typeId" name="product.typeId" value="1">
+                            <input type="text" id="parentName" name="product.typeName" value="" class="input-text">
+
+                           <!-- <select class="form-control" id="typeId" name="product.typeId">
+                                <option value="1">电子数码</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>-->
+                            <!--<input type="hidden" value="电子数码" name="product.typeName"/>-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="productDesc" class="col-sm-2 control-label">商品描述</label>
+                        <div class="col-sm-10">
+                            <div id="editor">
+                                <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
+                            </div>
+                            <input type="hidden" id="productDesc" name="productDesc"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="add">保存</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="updateModel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">更新商品</h4>
+            </div>
+            <div class="modal-body">
+                <!--录入商品信息-->
+                <form class="form-horizontal" id="updateForm" action="product/add" method="post">
+                    <div class="form-group">
+                        <label for="pname" class="col-sm-2 control-label">商品名称</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="pname"  name="product.name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="pprice" class="col-sm-2 control-label">价格</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="pprice" name="product.price" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="psalePrice" class="col-sm-2 control-label">促销价</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="psalePrice" name="product.salePrice">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="puploadImage" class="col-sm-2 control-label">图片</label>
+                        <div class="col-sm-10">
+                            <input type="file"name="file" id="puploadImage"/>
+                            <img src="#" id="pshowImage" style="width: 100px;height: 100px;display: none;">
+                            <input type="hidden" id="pimages" name="product.images">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="psalePoint" class="col-sm-2 control-label">卖点</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="psalePoint" name="product.salePoint">
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label for="ptypeId" class="col-sm-2 control-label">商品类别</label>
+                        <div class="col-sm-10">
+                            <a data-toggle="modal" href="#myModal" class="btn btn-primary" id="pselect">选择商品类别</a>
+                            <!--<input class="btn btn-primary radius" type="button" value="选择类别"  aria-labelledby="myModal2">-->
+                            <input type="hidden" id="ptypeId" name="product.typeId" value="1">
+                            <input type="text" id="pparentName" name="product.typeName" value="" class="input-text">
+
+                            <!-- <select class="form-control" id="typeId" name="product.typeId">
+                                 <option value="1">电子数码</option>
+                                 <option>2</option>
+                                 <option>3</option>
+                                 <option>4</option>
+                                 <option>5</option>
+                             </select>-->
+                            <!--<input type="hidden" value="电子数码" name="product.typeName"/>-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="pproductDesc" class="col-sm-2 control-label">商品描述</label>
+                        <div class="col-sm-10">
+                            <div id="peditor">
+                                <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
+                            </div>
+                            <input type="hidden" id="pproductDesc" name="productDesc"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="padd">保存</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">选择类别</h4>
+
+            </div>
+            <div class="container"></div>
+            <div class="modal-body">
+                <div id="orgParentTree">
+                    <div id="zTree" class="ztree"></div>
+                </div>
+            </div>
+            <div class="modal-footer">  <a href="#" data-dismiss="modal" class="btn">保存</a>
+            <!--<div class="modal-footer">  <button type="button" class="btn btn-primary" id="save">保存</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--装树的一个容器-->
+<!--<div id="orgParentTree" style="display: none">-->
+    <!--<div id="zTree" class="ztree"></div>-->
+<!--</div>-->
+
+<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+<!--引入zTree的js-->
+<script type="text/javascript" src="zTree/v3/js/jquery.ztree.core-3.5.js"></script>
+
+<script src="js/jquery.uploadifive.js"></script>
+
+<script src="https://unpkg.com/wangeditor/release/wangEditor.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#to-add").click(function () {
+            $("#addModel").modal({
+                backdrop:"static",
+                keyboard:false
+            });
+        })
+
+       /* $("#save").click(function () {
+            $("#myModal").click(function () {
+                $(document.body).Close();
+            })
+            $("#addModel").on("hidden.bs.modal",function(){
+                $(document.body).addClass("modal-open");
+            });
+        })*/
+
+        $("#add").click(function () {
+            var content = editor.txt.html();
+            $("#productDesc").val(content);
+            $("#addForm").submit();
+        })
+
+        $(".btn-update").click(function () {
+            $('#updateModel').modal({
+                backdrop:"static",
+                keyboard:false
+            });
+        })
+
+        /*$(".btn-update").click(function () {
+            //获取当前记录的id
+            var id = $(this).prop("id");
+            //发送Ajax请求
+            $.ajax({
+                url :"product/toUpdate/"+id,
+                type:"POST",
+                success:function (data) {
+                    
+                }
+            })
+            //根据id，异步获取数据，完成数据的回显
+            $('#upModal').modal({
+                backdrop : "static",
+                keyboard : false,
+                success:function (data) {
+                    alert(product.name)
+                }
+            });
+        })*/
+
+        /*$(".btn-delete").click(function () {
+            var id=$(this).prop("id");
+            $.ajax({
+                url:"product/delById/"+id,
+                type:"POST",
+                success:function (data) {
+                    if (data.statusCode == 200) {
+                        alert(data.data);
+                        location.reload();
+                    } else {
+                        alert(data.data);
+                    }
+                }
+            })
+        })*/
+
+        $("#checkAll").click(function () {
+            $(".cxb").prop("checked",$(this).prop("checked"));
+        });
+
+        $(".cxb").click(function () {
+            $("#checkAll").prop("checked",$(".cxb").length==$(".cxb:checked").length);
+        });
+
+        $("#to-batch-del").click(function () {
+            var checkeds=$(".cxb:checked");
+            if (checkeds.length > 0) {
+                if (confirm("是否确定删除?删除之后,数据不可恢复!")) {
+                    var ids = [];
+                    for (var i = 0; i < checkeds.length; i++) {
+                        ids.push(checkeds[i].value);
+                    }
+                    console.log(ids);
+
+                    $.ajax({
+                        url:"product/batchDel/",
+                        data:"ids="+ids,
+                        type:"POST",
+                        success:function (data) {
+                            if (data.statusCode == 200) {
+                                alert(data.data);
+                                location.reload();
+                            } else {
+                                alert(data.data);
+                            }
+                        }
+                    })
+                }
+            }
+        })
+
+        $('#uploadImage').uploadifive({
+            'uploadScript': 'file/upload',
+            'buttonText': '上传',
+            'fileObjName' : 'file',
+            'onUploadComplete' : function(file,data) {
+                var jsonObj = JSON.parse(data);
+                $("#showImage").attr("src",jsonObj.data).show();
+                $("#images").val(jsonObj.data);
+            }
+        });
+
+        var E = window.wangEditor;
+        var editor = new E('#editor');
+
+        // 自定义菜单配置
+        editor.customConfig.menus = [
+            'head',  // 标题
+            'bold',  // 粗体
+            'fontSize',  // 字号
+            'fontName',  // 字体
+            'italic',  // 斜体
+            'foreColor',  // 文字颜色
+            'backColor',  // 背景颜色
+            'emoticon',  // 表情
+            'image',  // 插入图片
+            'table',  // 表格
+        ];
+        // 配置服务器端地址
+        editor.customConfig.uploadImgServer = '/file/multiUpload';
+        editor.customConfig.uploadFileName = 'files';
+        editor.create();
+
+    })
+
+    $("#select").click(function () {
+        //渲染
+        //通过ajax请求去查询组织的信息(List)
+        $.ajax({
+            url:"product/list",
+            type:"POST",
+            success:function (data) {
+                var zTreeObj;
+                var setting = {
+                    data: {
+                        key: {
+                            name: "name"
+                        },
+                        simpleData: {
+                            enable: true,
+                            idKey: "id",
+                            pIdKey: "pid",
+                        }
+                    },
+                    callback: {
+                        onClick: function (event, treeId, treeNode) {
+                            $("#parentName").val(treeNode.name);
+                            $("#typeId").val(treeNode.id);
+                        }
+                    }
+
+                };
+                var zNodes = data;
+                $(document).ready(function(){
+                    zTreeObj = $.fn.zTree.init($("#zTree"), setting, zNodes);
+                });
+            }
+        })
+    })
+
+
+</script>
+</body>
+</html>
